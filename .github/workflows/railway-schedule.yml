@@ -1,0 +1,35 @@
+name: Railway Auto Start/Stop
+
+on:
+  schedule:
+    - cron: '0 5 * * *'     # каждый день в 08:00 по Москве (UTC+3)
+    - cron: '0 21 * * *'    # каждый день в 00:00 по Москве (UTC+3)
+  workflow_dispatch:        # позволяет запускать вручную при желании
+
+jobs:
+  run-railway:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Install Railway CLI
+      run: npm install -g railway
+
+    - name: Login to Railway
+      run: railway login --token ${{ secrets.RAILWAY_TOKEN }}
+
+    - name: Link project
+      run: railway link --project ${{ secrets.RAILWAY_PROJECT_ID }}
+
+    - name: Start or Stop project
+      run: |
+        TIME=$(date +%H)
+        if [ "$TIME" -eq "05" ]; then
+          echo "Starting Railway project..."
+          railway up --detach
+        elif [ "$TIME" -eq "21" ]; then
+          echo "Stopping Railway project..."
+          railway down
+        fi

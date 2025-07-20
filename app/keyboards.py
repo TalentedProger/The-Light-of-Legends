@@ -91,9 +91,8 @@ about_inline_kb = InlineKeyboardMarkup(inline_keyboard=[
     ]
 ])
 
+
 review_inline_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [
-        InlineKeyboardButton(text="💬 Оставить отзыв ", url="https://forms.yandex.ru/u/687a058ae010db0735e8f675"),
-        InlineKeyboardButton(text="❌ Выйти", callback_data="exit_review")
-    ]
+    [InlineKeyboardButton(text="💬 Оставить отзыв", url="https://forms.yandex.ru/u/687a058ae010db0735e8f675")],
+    [InlineKeyboardButton(text="❌ Выйти", callback_data="exit_review")]
 ])

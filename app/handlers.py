@@ -696,10 +696,11 @@ async def review_project(message: Message):
     await message.delete()
     photo = FSInputFile("assets/images/welcome.jpg")  # замените на актуальное изображение
     text = (
-        "<b>Оцените наш проект!</b>\n"
-        "Ваше мнение — наша мотивация 💚"
-        "Поделитесь своими впечатлениями о проекте <b>«Свет легенд»</b>\n\nВы можете оставить отзыв и помочь нам стать лучше!"
-    )
+    "<b>Оцените наш проект!</b>\n"
+    "Ваше мнение вдохновляет нас на развитие 💚\n\n"
+    "Поделитесь своими впечатлениями о проекте <b>«Свет легенд»</b> — "
+    "это поможет нам стать лучше и радовать вас дальше!"
+)
 
     await message.answer_photo(photo=photo, caption=text, reply_markup=kb.review_inline_kb, parse_mode="HTML")
 

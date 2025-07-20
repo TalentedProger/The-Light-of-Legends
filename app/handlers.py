@@ -664,3 +664,46 @@ async def disable(call: CallbackQuery):
 async def just_exit(call: CallbackQuery):
     await call.message.delete()
     await call.answer("Закрыто 👌", show_alert=False)
+
+#о нас 
+
+EMAIL = "svet-legend@yandex.ru"  # замените на ваш email
+
+@router.message(F.text == "О нас ℹ️")
+async def about_us(message: Message):
+    await message.delete()
+    photo = FSInputFile("assets/images/word_template.jpg")
+    text = (
+        "<b>Университет:</b> ФГБОУ ВО «Майкопский Государственный Технологический университет»\n"
+        "<b>Автор идеи:</b> Мешвез Изабелла Рашидовна"
+    )
+
+    await message.answer_photo(photo=photo, caption=text, reply_markup=kb.about_inline_kb,parse_mode=ParseMode.HTML)
+
+@router.callback_query(F.data == "contact")
+async def contact_callback(callback: CallbackQuery):
+    await callback.answer(text=f"Наша почта: {EMAIL}", show_alert=True)
+
+@router.callback_query(F.data == "close")
+async def close_callback(callback: CallbackQuery):
+    await callback.message.delete()
+    await callback.answer()
+
+#оценить проект 
+
+@router.message(F.text == "Оценить проект ⭐")
+async def review_project(message: Message):
+    await message.delete()
+    photo = FSInputFile("assets/images/welcome.jpg")  # замените на актуальное изображение
+    text = (
+        "<b>Оцените наш проект!</b>\n"
+        "Ваше мнение — наша мотивация 💚"
+        "Поделитесь своими впечатлениями о проекте <b>«Свет легенд»</b>\n\nВы можете оставить отзыв и помочь нам стать лучше!"
+    )
+
+    await message.answer_photo(photo=photo, caption=text, reply_markup=kb.review_inline_kb, parse_mode="HTML")
+
+@router.callback_query(F.data == "exit_review")
+async def exit_review(callback: CallbackQuery):
+    await callback.message.delete()
+    await callback.answer()

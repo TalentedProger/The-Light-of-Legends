@@ -6,6 +6,7 @@ main = ReplyKeyboardMarkup(keyboard=[
 	[KeyboardButton(text='Пословицы 📝'),KeyboardButton(text='Песни 🎶')],
 	[KeyboardButton(text='Легенды ⚜️'),KeyboardButton(text='Мифы 🔮')],
     [KeyboardButton(text='Галерея 📸'),KeyboardButton(text='Квест 🏆')],
+    [KeyboardButton(text='О нас ℹ️'),KeyboardButton(text='Оценить проект ⭐')],
     [KeyboardButton(text='Изучить новые слова 📖')],
 	
 ],resize_keyboard=True,input_field_placeholder="Выберите пункт меню")
@@ -82,3 +83,17 @@ def get_myths_keyboard(index: int):
         InlineKeyboardButton(text="🖼 Следующая", callback_data=f"myths_next:{index}")
     )
     return builder.as_markup()
+
+about_inline_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [
+        InlineKeyboardButton(text="📩 Связаться", callback_data="contact"),
+        InlineKeyboardButton(text="❌ Закрыть", callback_data="close")
+    ]
+])
+
+review_inline_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [
+        InlineKeyboardButton(text="💬 Оставить отзыв ", url="https://forms.yandex.ru/u/687a058ae010db0735e8f675"),
+        InlineKeyboardButton(text="❌ Выйти", callback_data="exit_review")
+    ]
+])

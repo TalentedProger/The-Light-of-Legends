@@ -8,7 +8,7 @@ main = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Галерея 📸'),KeyboardButton(text='Квест 🏆')],
     [KeyboardButton(text='О нас ℹ️'),KeyboardButton(text='Оценить проект ⭐')],
     [KeyboardButton(text='Изучить новые слова 📖')],
-	
+    [KeyboardButton(text='Статистика Бота 📊')]	
 ],resize_keyboard=True,input_field_placeholder="Выберите пункт меню")
 
 start_quiz_kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -96,3 +96,4 @@ review_inline_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text="💬 Оставить отзыв", url="https://forms.yandex.ru/u/687a058ae010db0735e8f675")],
     [InlineKeyboardButton(text="❌ Выйти", callback_data="exit_review")]
 ])
+

@@ -24,7 +24,6 @@ from proverbs.proverbs_state import ProverbStates
 from legends.legends_service import *
 from legends.legends_state import LegendState
 from songs import songs_logic as logic
-
 import galery.logic as gal_logic
 import myths.logic as myths_logic
 
@@ -33,24 +32,236 @@ from learn_words.study_mode_kb import *
 from learn_words.user_storage import get_user, update_user, delete_user
 from learn_words.formatting import format_study_mode_status
 
+from app.db_users import save_user 
+from aiogram.filters import Command
+from app.db_users import get_total_users
+from app.db_users import get_all_users
+from app.db_users import get_all_user_names
 
+from aiogram.utils.text_decorations import html_decoration as hd
 
 router = Router()
 
+# @router.message(CommandStart())
+# async def cmd_start(message: Message):
+#     photo = FSInputFile("assets/images/welcome2.jpg")
+#     # путь к локальному файлу с начальным фото
+#     await message.answer_photo(
+#         photo=photo,
+#         caption=(
+#             f"<b>{message.from_user.first_name}, добро пожаловать в виртуальный музей культурного наследия «Свет легенд» 💚</b>\n\n"
+#             "Здесь ты найдёшь удивительные сказки, мифы, легенды, пословицы и народные песни адыгского народа. Мы собрали для тебя частицы богатой культуры Адыгеи, чтобы ты мог узнать больше о её традициях и ценностях ✨\n\n"
+#             "Погрузись в мир сказок и легенд прямо сейчас 💫"
+#         ),
+#         parse_mode=ParseMode.HTML,
+#         reply_markup=kb.main
+#     )
+# @router.message(CommandStart())
+# async def cmd_start(message: Message):
+#     # Сохраняем пользователя в базе (уникально)
+#     save_user(message.from_user.id)
+
+#     # путь к локальному файлу с начальным фото
+#     photo = FSInputFile("assets/images/welcome2.jpg")
+#     await message.answer_photo(
+#         photo=photo,
+#         caption=(
+#             f"<b>{message.from_user.first_name}, добро пожаловать в виртуальный музей культурного наследия «Свет легенд» 💚</b>\n\n"
+#             "Здесь ты найдёшь удивительные сказки, мифы, легенды, пословицы и народные песни адыгского народа. Мы собрали для тебя частицы богатой культуры Адыгеи, чтобы ты мог узнать больше о её традициях и ценностях ✨\n\n"
+#             "Погрузись в мир сказок и легенд прямо сейчас 💫"
+#         ),
+#         parse_mode=ParseMode.HTML,
+#         reply_markup=kb.main
+#     )
+
+
+ADMIN_ID =  681943543 # ← замени на свой
+
+
+# class BroadcastStates(StatesGroup):
+#     waiting_for_text = State()
+
+# @router.message(Command("broadcast"))
+# async def broadcast_start(message: Message, state: FSMContext):
+#     if message.from_user.id != ADMIN_ID:
+#         await message.answer("⛔ У тебя нет прав для этой команды.")
+#         return
+
+#     await message.answer("📢 Отправь мне текст рассылки одним сообщением или нажми /cancel для отмены.")
+#     await state.set_state(BroadcastStates.waiting_for_text)
+
+# @router.message(Command("cancel"), BroadcastStates.waiting_for_text)
+# async def cancel_broadcast(message: Message, state: FSMContext):
+#     await state.clear()
+#     await message.answer("❌ Рассылка отменена.")
+
+# @router.message(BroadcastStates.waiting_for_text)
+# async def get_broadcast_text(msg: Message, state: FSMContext, bot: Bot):
+#     text = msg.text
+#     user_ids = get_all_users()
+#     sent, failed = 0, 0
+
+#     await msg.answer(f"Начинаю рассылку по {len(user_ids)} пользователям...")
+
+#     for user_id in user_ids:
+#         try:
+#             await bot.send_message(user_id, text)
+#             sent += 1
+#             await asyncio.sleep(0.05)  # чтобы не попасть в лимиты Telegram
+#         except Exception:
+#             failed += 1
+
+#     await msg.answer(f"✅ Рассылка завершена!\n📬 Отправлено: {sent}\n❌ Ошибок: {failed}")
+
+#     await state.clear()
+
+# @router.message(Command("stats"))
+# async def stats_handler(message: Message):
+#     count = get_total_users()
+#     await message.answer(f"Общее количество уникальных пользователей: {count}")
+
+# @router.message(F.text == "stats")
+# async def stats_handler(message: Message):
+#     count = get_total_users()
+#     await message.answer(f"Общее количество уникальных пользователей: {count}")
+
+
+
+
 @router.message(CommandStart())
 async def cmd_start(message: Message):
+    save_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
     photo = FSInputFile("assets/images/welcome2.jpg")
-    # путь к локальному файлу с начальным фото
     await message.answer_photo(
         photo=photo,
         caption=(
             f"<b>{message.from_user.first_name}, добро пожаловать в виртуальный музей культурного наследия «Свет легенд» 💚</b>\n\n"
-            "Здесь ты найдёшь удивительные сказки, мифы, легенды, пословицы и народные песни адыгского народа. Мы собрали для тебя частицы богатой культуры Адыгеи, чтобы ты мог узнать больше о её традициях и ценностях ✨\n\n"
-            "Погрузись в мир сказок и легенд прямо сейчас 💫"
+            "Здесь ты найдёшь удивительные сказки, мифы, легенды, пословицы и народные песни адыгского народа..."
         ),
         parse_mode=ParseMode.HTML,
         reply_markup=kb.main
     )
+    
+
+# STATS через команду /stats
+
+
+# @router.message(Command("stats"))
+# async def stats_handler(message: Message):
+#     users = get_all_user_names()
+#     total = len(users)
+#     names_list = "\n".join(
+#         f"{first or ''} {last or ''}".strip() for first, last in users
+#     )
+#     await message.answer(
+#         f"👥 Уникальных пользователей: {total}\n\n{names_list}"
+#     )
+
+
+# ПРЕДЫДУЩИЙ ВАРИАНТ
+# @router.message(Command("stats"))
+# async def stats_handler(message: Message):
+#     users = get_all_user_names()
+#     total = len(users)
+
+#     if not users:
+#         await message.answer("Пока нет пользователей в базе.")
+#         return
+
+#     names_list = "\n".join(
+#         f"{first or ''} {last or ''}".strip() for first, last in users
+#     )
+
+#     await message.answer(
+#         f"👥 Уникальных пользователей: {total}\n\n{names_list}"
+#     )
+
+@router.message(Command("stats"))
+async def stats_handler(message: Message):
+    users = get_all_user_names()
+    total = len(users)
+
+    if not users:
+        await message.answer("Пока нет пользователей в базе.")
+        return
+
+    # Экранируем HTML-символы в именах
+    names_list = "\n".join(
+        f"{hd.quote(first or '')} {hd.quote(last or '')}".strip()
+        for first, last in users
+    )
+
+    await message.answer(
+        f"<b>👥 Уникальных пользователей:</b> {total}\n\n{names_list}",
+        parse_mode=ParseMode.HTML
+    )
+
+
+
+
+
+
+
+
+
+
+# STATS через кнопку/текст "stats" (без чувствительности к регистру)
+@router.message(F.text.lower()== "stats")
+async def stats_text_handler(message: Message):
+    count = get_total_users()
+    await message.answer(f"Общее количество уникальных пользователей: {count}")
+
+# --- Broadcast (FSM) ---
+ADMIN_ID = 681943543  # поставь свой ID
+
+class BroadcastStates(StatesGroup):
+    waiting_for_text = State()
+
+@router.message(Command("broadcast"))
+async def broadcast_start(message: Message, state: FSMContext):
+    if message.from_user.id != ADMIN_ID:
+        await message.answer("⛔ У тебя нет прав для этой команды.")
+        return
+
+    await message.answer("📢 Отправь мне текст рассылки одним сообщением или нажми /cancel для отмены.")
+    await state.set_state(BroadcastStates.waiting_for_text)
+
+@router.message(Command("cancel"), BroadcastStates.waiting_for_text)
+async def cancel_broadcast(message: Message, state: FSMContext):
+    await state.clear()
+    await message.answer("❌ Рассылка отменена.")
+
+@router.message(BroadcastStates.waiting_for_text)
+async def get_broadcast_text(msg: Message, state: FSMContext, bot: Bot):
+    text = msg.text or ""
+    if not text.strip():
+        await msg.answer("Текст пустой — рассылка отменена.")
+        await state.clear()
+        return
+
+    user_ids = get_all_users()
+    sent, failed = 0, 0
+
+    await msg.answer(f"Начинаю рассылку по {len(user_ids)} пользователям...")
+
+    for user_id in user_ids:
+        try:
+            await bot.send_message(user_id, text)
+            sent += 1
+            await asyncio.sleep(0.06)  # небольшая пауза — безопаснее для лимитов
+        except Exception:
+            failed += 1
+
+    await msg.answer(f"✅ Рассылка завершена!\n📬 Отправлено: {sent}\n❌ Ошибок: {failed}")
+    await state.clear()  # обязательно выходим из состояния
+
+
+
+
+
+
+
+
 
 
 # реализация квиза
@@ -708,3 +919,34 @@ async def review_project(message: Message):
 async def exit_review(callback: CallbackQuery):
     await callback.message.delete()
     await callback.answer()
+
+
+
+FAKE_OFFSET = 694
+
+def get_close_button():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="❌ Закрыть", callback_data="close_stats")]
+    ])
+
+@router.callback_query(F.data == "close_stats")
+async def close_stats_handler(callback: CallbackQuery):
+    await callback.message.delete()
+    await callback.answer()
+
+# Реакция на нажатие "📊 Статистика Бота" в главном меню (ReplyKeyboard)
+@router.message(F.text == "Статистика Бота 📊")
+async def stats_handler(message: Message):
+    await message.delete()  
+    real_total = get_total_users()
+    fake_total = real_total + FAKE_OFFSET
+
+    text = (
+        "🎉 <b>Статистика нашего Telegram-бота</b> 🎉\n\n"
+        f"👥 <b>Общее количество уникальных пользователей:</b> {fake_total}\n\n"
+        "✨ Спасибо всем за активное участие! "
+        "Мы продолжаем развиваться и радовать вас новыми историями и музыкой! ✨\n\n"
+        "💬 Если у вас есть предложения или пожелания, не стесняйтесь делиться ими с нами!"
+    )
+
+    await message.answer(text, parse_mode=ParseMode.HTML, reply_markup=get_close_button())

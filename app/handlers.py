@@ -89,15 +89,15 @@ async def our_site(message: Message):
         "Мы росли вместе с вами: пробовали новое, делились опытом и шаг за шагом "
         "превращали задуманное в живой проект.\n\n"
         "🌿 Сегодня наш сайт — это не просто набор страниц — это коллекция историй, "
-        "советов и атмосфера, которую мы создаём руками сообщества.\n\n"
-        '<b>С радостью приглашаем заглянуть на <a href="https://t.me/AdygheTalesBot">наш сайт</a></b>\n\n'
+        "советов и атмосфера,созданная руками сообщества.\n\n"
+        '<b>С радостью приглашаем заглянуть на <a href="https://talentedproger.github.io/AdygheTails">наш сайт</a></b>\n\n'
     )
 
     await message.answer_photo(
         photo=photo,
         caption=caption,
         parse_mode="HTML",
-        reply_markup=kb.about_inline_kb
+        reply_markup=get_close_button()
     )
 # class BroadcastStates(StatesGroup):
 #     waiting_for_text = State()

@@ -77,7 +77,28 @@ router = Router()
 
 ADMIN_ID =  681943543 # ← замени на свой
 
+# Посетить сайт 🤩
+@router.message(F.text == "Посетить сайт 🤩")
+async def our_site(message: Message):
+    await message.delete()
+    # QR-изображение (путь к файлу в вашем проекте)
+    photo = FSInputFile("assets/images/qr_site.jpg")
+    caption = (
+        "✨ Когда-то всё началось с маленькой идеи — создать место, где каждый мог бы найти "
+        "что-то тёплое, полезное и вдохновляющее.\n\n"
+        "Мы росли вместе с вами: пробовали новое, делились опытом и шаг за шагом "
+        "превращали задуманное в живой проект.\n\n"
+        "🌿 Сегодня наш сайт — это не просто набор страниц — это коллекция историй, "
+        "советов и атмосфера, которую мы создаём руками сообщества.\n\n"
+        '<b>С радостью приглашаем заглянуть на <a href="https://t.me/AdygheTalesBot">наш сайт</a></b>\n\n'
+    )
 
+    await message.answer_photo(
+        photo=photo,
+        caption=caption,
+        parse_mode="HTML",
+        reply_markup=kb.about_inline_kb
+    )
 # class BroadcastStates(StatesGroup):
 #     waiting_for_text = State()
 

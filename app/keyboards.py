@@ -7,8 +7,9 @@ main = ReplyKeyboardMarkup(keyboard=[
 	[KeyboardButton(text='Легенды ⚜️'),KeyboardButton(text='Мифы 🔮')],
     [KeyboardButton(text='Галерея 📸'),KeyboardButton(text='Квест 🏆')],
     [KeyboardButton(text='О нас ℹ️'),KeyboardButton(text='Оценить проект ⭐')],
-    [KeyboardButton(text='Изучить новые слова 📖')],
-    [KeyboardButton(text='Статистика Бота 📊')]	
+    [KeyboardButton(text='Посетить сайт 🤩')],
+    [KeyboardButton(text='Статистика Бота 📊')],
+    [KeyboardButton(text='Изучить новые слова 📖')]	
 ],resize_keyboard=True,input_field_placeholder="Выберите пункт меню")
 
 start_quiz_kb = InlineKeyboardMarkup(inline_keyboard=[
